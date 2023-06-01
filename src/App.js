@@ -1,24 +1,39 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import PetForm from './components/PetForm';
 
-function App() {
+const App = () => {
+  let formData = [];
+  const [ details, setDetails ] = useState({
+    "petType": "",
+    "petName": "",
+    "ownerName": "",
+    "illness": "",
+  });
+
+  const addPetHandler = (e) => {
+    e.preventDefault();
+    formData.push(details);
+    let newData = [...formData];
+    console.log(newData);
+    setDetails({
+      "petType": "",
+      "petName": "",
+      "ownerName": "",
+      "illness": "",
+    });
+  }
+  
+  const changeHandler = (e) => {
+    setDetails((prev) => {
+      return { ...prev, [e.target.name] : e.target.value };
+    })
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>Pet Log</h1>
+      <PetForm details={details} changeHandler={changeHandler} addPetHandler={addPetHandler} />
+    </>
   );
 }
 
